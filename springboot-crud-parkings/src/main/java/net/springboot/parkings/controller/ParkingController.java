@@ -22,7 +22,7 @@ public class ParkingController {
     
     @Autowired
     private ParkingRepository parkingRepository;
-    
+     
     //insert parking
     @PostMapping("/saveParking") 
     public ResponseEntity<Parking> saveParking(@RequestBody Parking parking)  {
@@ -35,8 +35,7 @@ public class ParkingController {
             @RequestBody Parking parking) {  
         Parking updatedParking = parkingRepository.findById(id).get();
         if(updatedParking != null) {
-            updatedParking.setParkingName(parking.getParkingName());
-            updatedParking.setZones(parking.getZones());
+            updatedParking.setParkingName(parking.getParkingName()); 
             updatedParking.setCity(parking.getCity());
             updatedParking.setStreet(parking.getStreet());
             updatedParking.setZipCode(parking.getZipCode());
@@ -79,4 +78,5 @@ public class ParkingController {
           return "Parking zone is: " + parkingRepository.getParkingZonesByParkingId(parkingId).get(0).getZones();
    }
      
+    
 }

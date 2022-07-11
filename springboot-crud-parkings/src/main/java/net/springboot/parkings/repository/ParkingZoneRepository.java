@@ -10,6 +10,7 @@ import net.springboot.parkings.model.ParkingZone;
 
 @Repository
 public interface ParkingZoneRepository extends JpaRepository<ParkingZone, Long>{
+    
     @Query(value = "select * from parking_zones where id=?1", nativeQuery = true)
     public List<ParkingZone> getParkingPlacesByParkingZoneId(Long id);
 }

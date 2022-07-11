@@ -1,25 +1,34 @@
-package net.springboot.parkings.model;
+package net.springboot.parkings.model;  
 
+  
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.Entity;
+import javax.persistence.Entity; 
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
+import lombok.Data; 
+
 @Entity
+@Data 
 @Table(name = "parkings")
 public class Parking {
     
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO)  
+    @Column(name = "parking_id")
     private long id;
     
     @Column(name = "parkingName")
-    private String parkingName;
-    
-    @Column(name = "zones")
-    private String zones;
+    private String parkingName; 
     
     @Column(name = "city")
     private String city;
@@ -28,21 +37,28 @@ public class Parking {
     private String street;
     
     @Column(name = "zipCode")
-    private String zipCode; 
+    private String zipCode;  
+    
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "parking_parking_zone", 
+            joinColumns =  @JoinColumn(name = "parking_id") ,
+            inverseJoinColumns = @JoinColumn(name = "zone_id")) 
+    private Set<ParkingZone> zones = new HashSet<>();
     
     public Parking() {
         super();
     }
-    
-    public Parking(long id, String parkingName, String zones, String city, String street, String zipCode) {
+         
+    public Parking(String parkingName, String city, String street, String zipCode, Set<ParkingZone> zones) {
         super();
-        this.id = id;
         this.parkingName = parkingName;
-        this.zones = zones;
         this.city = city;
         this.street = street;
         this.zipCode = zipCode;
+        this.zones = zones;
     }
+
 
     public long getId() {
         return id;
@@ -58,12 +74,7 @@ public class Parking {
     public void setParkingName(String parkingName) {
         this.parkingName = parkingName;
     }
-    public String getZones() {
-        return zones;
-    }
-    public void setZones(String zones) {
-        this.zones = zones;
-    }
+     
     public String getCity() {
         return city;
     }
@@ -82,6 +93,14 @@ public class Parking {
     public void setZipCode(String zipCode) {
         this.zipCode = zipCode;
     }
-    
-    
+
+    public Set<ParkingZone> getZones() {
+        return zones;
+    }
+
+    public void setZones(Set<ParkingZone> zones) {
+        this.zones = zones;
+    }
+
+     
 }

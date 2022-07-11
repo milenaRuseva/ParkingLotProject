@@ -1,10 +1,12 @@
 package net.springboot.parkings.model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -12,24 +14,30 @@ import javax.persistence.Table;
 public class Car {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id")
     private long id;
     
     @Column(name = "plate_number")
     private String plateNumber;
-    
-    @Column(name = "parking_place")
-    private String parkingPlace;
+     
+    @OneToOne(mappedBy = "car", cascade =  CascadeType.ALL)
+    private ParkingPlace parkingPlace;
     
     public Car() {
         super();
-    }
-    
-    public Car(long id, String plateNumber, String parkingPlace) {
+    } 
+
+    public Car(String plateNumber) {
         super();
-        this.id = id;
+        this.plateNumber = plateNumber; 
+    }
+     
+    public Car(String plateNumber, ParkingPlace parkingPlace) {
+        super();
         this.plateNumber = plateNumber;
         this.parkingPlace = parkingPlace;
     }
+
 
     public long getId() {
         return id;
@@ -47,14 +55,13 @@ public class Car {
         this.plateNumber = plateNumber;
     }
 
-    public String getParkingPlace() {
+    public ParkingPlace getParkingPlace() {
         return parkingPlace;
     }
 
-    public void setParkingPlace(String parkingPlace) {
+    public void setParkingPlace(ParkingPlace parkingPlace) {
         this.parkingPlace = parkingPlace;
     }
-    
-    
+
     
 }

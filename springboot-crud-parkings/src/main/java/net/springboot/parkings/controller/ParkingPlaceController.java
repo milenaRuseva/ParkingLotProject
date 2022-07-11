@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import net.springboot.parkings.exception.ParkingNotFoundException; 
 import net.springboot.parkings.model.ParkingPlace;
+import net.springboot.parkings.model.ParkingZone;
 import net.springboot.parkings.repository.ParkingPlaceRepository;
  
 
@@ -86,8 +87,10 @@ public class ParkingPlaceController {
      
     //show zone by parking place id
     @GetMapping("/parkingZone/{id}")
-    public String showParkingZoneByPlaceId(@PathVariable(value = "id") long placeId) throws ParkingNotFoundException{
+    public ParkingZone showParkingZoneByPlaceId(@PathVariable(value = "id") long placeId) throws ParkingNotFoundException{
         ParkingPlace parkingPlace = parkingPlaceRepository.findById(placeId).orElseThrow(()-> new ParkingNotFoundException("Not found parking with id: " + placeId));
         return parkingPlace.getParkingZoneName();
     }
+    
+    
 }
